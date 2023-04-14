@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/onsi/ginkgo/v2"
@@ -24,6 +25,7 @@ var _ = ginkgo.Describe("Given: Rancher API test", func() {
 			gomega.Expect(err).NotTo(gomega.HaveOccurred())
 
 			// Check that the response status code is 200 OK
+			log.Println("Validate that the response status code is 200 OK")
 			gomega.Expect(resp.StatusCode).To(gomega.Equal(http.StatusOK))
 
 			defer resp.Body.Close()
@@ -41,7 +43,8 @@ var _ = ginkgo.Describe("Given: Rancher API test", func() {
 			//fmt.Println("keys-->", keys)
 			//fmt.Println("response-->", response)
 
-			// Assert that the Rancher login was successful by checking for the presence of an API token
+			// Assert that the Rancher login was successful by checking for the presence of keys
+			log.Println("Validate keys in the response")
 			gomega.Expect(response).To(gomega.HaveKey("apiVersion"))
 			gomega.Expect(response).To(gomega.HaveKey("baseType"))
 			gomega.Expect(response).To(gomega.HaveKey("links"))
