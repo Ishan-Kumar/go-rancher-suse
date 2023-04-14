@@ -11,14 +11,15 @@ import (
 	"github.com/onsi/gomega"
 )
 
-var _ = ginkgo.Describe("Rancher API Tests", func() {
-	ginkgo.Context("Given valid Rancher credentials", func() {
+var _ = ginkgo.Describe("Given: Rancher API test", func() {
+	ginkgo.Context("When: Login API executes with valid token", func() {
 		url := "https://localhost/v3"
 		//method := "POST"
 		bearer_token := "Bearer token-l5gpk:g854bjdcfc4f27tpnb8gcvcxx6q59nwwpfwphgdlqvdcjvqzspttbc"
 
-		ginkgo.FIt("Should be able to login to rancher uses bearer token", func() {
-			fmt.Println("test passed")
+		ginkgo.It("Then: It should be able to login successfully", func() {
+
+			// Perform Login and get response
 			resp, err := ExecutePostRequest(url, bearer_token, nil)
 			gomega.Expect(err).NotTo(gomega.HaveOccurred())
 
@@ -49,6 +50,7 @@ var _ = ginkgo.Describe("Rancher API Tests", func() {
 	})
 })
 
+// Execute post request
 func ExecutePostRequest(url string, token string, payload io.Reader) (*http.Response, error) {
 	customTransport := http.DefaultTransport.(*http.Transport).Clone()
 	customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
@@ -68,12 +70,4 @@ func ExecutePostRequest(url string, token string, payload io.Reader) (*http.Resp
 		return nil, err
 	}
 	return res, nil
-	// defer res.Body.Close()
-
-	// body, err := ioutil.ReadAll(res.Body)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-
 }
